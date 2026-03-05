@@ -1,0 +1,5 @@
+homepage: "https://cookietip.com"
+documentation: "https://cookietip.com"
+versions:
+  - sha: HEAD
+    changeNotes: Initial release with Google Consent Mode v2 support
