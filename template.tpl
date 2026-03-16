@@ -22,7 +22,7 @@ ___INFO___
     "id": "brand_dummy",
     "displayName": "CookieTip"
   },
-  "description": "The CookieTip CMP makes your website's use of cookies compliant with global data privacy laws such as the GDPR, ePrivacy, CCPA, and LGPD. Supports 16 privacy regulations across 79+ countries. Visit www.cookietip.com to learn more.",
+  "description": "CookieTip CMP makes your website compliant with GDPR, ePrivacy, CCPA, LGPD and more. Supports 16 privacy regulations across 79+ countries. Visit cookietip.com to learn more.",
   "containerContexts": [
     "WEB"
   ]
