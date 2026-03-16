@@ -32,7 +32,7 @@ ___VENDOR_DETAILS___
 {
   "preview": [],
   "vendorName": "CookieTip",
-  "description": "<p><b>CookieTip</b> is a cookie consent management platform that helps websites comply with global data privacy laws including the <b>GDPR</b>, <b>CCPA/CPRA</b>, and <b>LGPD</b>. Features automatic script blocking, real-time analytics dashboard, bot detection, and native Google Consent Mode v2 support.</p>",
+  "description": "<p><b>CookieTip</b> is a cookie consent management platform that helps websites comply with global data privacy laws including the <b>GDPR</b>, <b>CCPA/CPRA</b>, and <b>LGPD</b>.</p>",
   "homepageUrl": "https://cookietip.com",
   "termsAndConditionsUrl": "https://cookietip.com/terms",
   "freeTier": "Free plan available (25,000 pageviews/month, 1 website)",
