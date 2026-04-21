@@ -84,11 +84,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -104,11 +104,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -124,11 +124,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -144,11 +144,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -163,11 +163,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true,
@@ -184,11 +184,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -204,11 +204,11 @@ ___TEMPLATE_PARAMETERS___
               "selectItems": [
                 {
                   "value": "granted",
-                  "displayValue": "Enabled"
+                  "displayValue": "Granted"
                 },
                 {
                   "value": "denied",
-                  "displayValue": "Disabled"
+                  "displayValue": "Denied"
                 }
               ],
               "simpleValueType": true
@@ -335,7 +335,7 @@ if (setDefaultSetting) {
   });
 }
 
-const consentString = getCookieValues("cookietip-consent", false)[0];
+const consentString = getCookieValues("cookietip-consent", true)[0];
 if (consentString && typeof consentString === "string") {
   const cookieObj = consentString.split(",").reduce(function (acc, curr) {
     const cookieValue = curr.trim().split(":");
