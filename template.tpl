@@ -78,8 +78,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "analytics",
-              "displayName": "Analytics Cookies",
+              "name": "analytics_storage",
+              "displayName": "Analytics Storage",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -98,8 +98,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "advertisement",
-              "displayName": "Advertisement Cookies",
+              "name": "ad_storage",
+              "displayName": "Ad Storage",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -118,8 +118,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "functional",
-              "displayName": "Functional Cookies",
+              "name": "functionality_storage",
+              "displayName": "Functionality Storage",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -138,8 +138,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "performance",
-              "displayName": "Performance Cookies",
+              "name": "personalization_storage",
+              "displayName": "Personalization Storage",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -158,8 +158,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "necessary",
-              "displayName": "Necessary Cookies",
+              "name": "security_storage",
+              "displayName": "Security Storage",
               "selectItems": [
                 {
                   "value": "granted",
@@ -178,8 +178,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "adUserData",
-              "displayName": "Share user data with Google",
+              "name": "ad_user_data",
+              "displayName": "Ad User Data",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -198,8 +198,8 @@ ___TEMPLATE_PARAMETERS___
           {
             "param": {
               "type": "SELECT",
-              "name": "adPersonal",
-              "displayName": "Use data for ads personalization",
+              "name": "ad_personalization",
+              "displayName": "Ad Personalization",
               "macrosInSelect": true,
               "selectItems": [
                 {
@@ -305,13 +305,13 @@ gtagSet({
 for (let index = 0; index < regionSettings.length; index++) {
   const regionSetting = regionSettings[index];
   const consentRegionData = {
-    ad_storage: regionSetting.advertisement,
-    analytics_storage: regionSetting.analytics,
-    functionality_storage: regionSetting.functional,
-    personalization_storage: regionSetting.performance,
-    security_storage: regionSetting.necessary,
-    ad_user_data: regionSetting.adUserData,
-    ad_personalization: regionSetting.adPersonal
+    ad_storage: regionSetting.ad_storage,
+    analytics_storage: regionSetting.analytics_storage,
+    functionality_storage: regionSetting.functionality_storage,
+    personalization_storage: regionSetting.personalization_storage,
+    security_storage: regionSetting.security_storage,
+    ad_user_data: regionSetting.ad_user_data,
+    ad_personalization: regionSetting.ad_personalization
   };
   const regionsToSetFor = regionSetting.regions
     .split(",")
