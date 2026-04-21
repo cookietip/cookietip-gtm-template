@@ -321,13 +321,13 @@ gtagSet({
 
 regionSettings.forEach(function (regionSetting) {
   const consentRegionData = {
-    ad_storage: regionSetting.advertisement,
-    ad_user_data: regionSetting.adUserData,
-    ad_personalization: regionSetting.adPersonal,
-    analytics_storage: regionSetting.analytics,
-    functionality_storage: regionSetting.functional,
-    personalization_storage: regionSetting.performance,
-    security_storage: regionSetting.necessary,
+    ad_storage: regionSetting.ad_storage,
+    ad_user_data: regionSetting.ad_user_data,
+    ad_personalization: regionSetting.ad_personalization,
+    analytics_storage: regionSetting.analytics_storage,
+    functionality_storage: regionSetting.functionality_storage,
+    personalization_storage: regionSetting.personalization_storage,
+    security_storage: regionSetting.security_storage,
   };
   const regions = regionSetting.regions
     .split(",")
