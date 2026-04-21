@@ -268,6 +268,13 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Redact ads data",
         "simpleValueType": true,
         "help": "When this option is checked and the default consent state of \"Advertisement Cookies\" is disabled, Google's advertising tags will remove all advertising identifiers from the requests, and route the traffic through domains that do not use cookies."
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "consentUpdateOnly",
+        "checkboxText": "Consent update only (use with cookie_consent_update trigger)",
+        "simpleValueType": true,
+        "help": "When checked, this tag will only read the cookietip-consent cookie and call updateConsentState. Use this with a Custom Event trigger for 'cookie_consent_update' to update consent state after the user accepts cookies without requiring a page reload."
       }
     ]
   }
@@ -276,21 +283,48 @@ ___TEMPLATE_PARAMETERS___
 
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
+const getCookieValues = require("getCookieValues");
+const updateConsentState = require("updateConsentState");
+
+function getConsentStateForCategory(categoryConsent) {
+  return categoryConsent === "yes" ? "granted" : "denied";
+}
+
+function readCookieAndUpdateConsent() {
+  const consentString = getCookieValues("cookietip-consent", true)[0];
+  if (consentString && typeof consentString === "string") {
+    const cookieObj = consentString.split(",").reduce(function (acc, curr) {
+      const cookieValue = curr.trim().split(":");
+      acc[cookieValue[0]] = getConsentStateForCategory(cookieValue[1]);
+      return acc;
+    }, {});
+
+    updateConsentState({
+      ad_storage: cookieObj.advertisement,
+      analytics_storage: cookieObj.analytics,
+      functionality_storage: cookieObj.functional,
+      personalization_storage: cookieObj.performance,
+      security_storage: cookieObj.necessary,
+      ad_user_data: cookieObj.advertisement,
+      ad_personalization: cookieObj.advertisement,
+    });
+  }
+}
+
+if (data.consentUpdateOnly) {
+  readCookieAndUpdateConsent();
+  return data.gtmOnSuccess();
+}
+
 const injectScript = require("injectScript");
 const queryPermission = require("queryPermission");
 const setDefaultConsentState = require("setDefaultConsentState");
 const encodeUri = require("encodeUri");
 const gtagSet = require("gtagSet");
-const getCookieValues = require("getCookieValues");
-const updateConsentState = require("updateConsentState");
 
 let setDefaultSetting = true;
 const regionSettings = data.regionSettings || [];
 const waitForTime = data.waitForTime;
-
-function getConsentStateForCategory(categoryConsent) {
-  return categoryConsent === "yes" ? "granted" : "denied";
-}
 
 function setConsentInitStates(consentData) {
   if (waitForTime > 0) consentData.wait_for_update = waitForTime;
@@ -305,13 +339,13 @@ gtagSet({
 for (let index = 0; index < regionSettings.length; index++) {
   const regionSetting = regionSettings[index];
   const consentRegionData = {
-    ad_storage: regionSetting.ad_storage,
-    analytics_storage: regionSetting.analytics_storage,
-    functionality_storage: regionSetting.functionality_storage,
-    personalization_storage: regionSetting.personalization_storage,
-    security_storage: regionSetting.security_storage,
-    ad_user_data: regionSetting.ad_user_data,
-    ad_personalization: regionSetting.ad_personalization
+    ad_storage: regionSetting.advertisement,
+    analytics_storage: regionSetting.analytics,
+    functionality_storage: regionSetting.functional,
+    personalization_storage: regionSetting.performance,
+    security_storage: regionSetting.necessary,
+    ad_user_data: regionSetting.adUserData,
+    ad_personalization: regionSetting.adPersonal
   };
   const regionsToSetFor = regionSetting.regions
     .split(",")
@@ -335,24 +369,7 @@ if (setDefaultSetting) {
   });
 }
 
-const consentString = getCookieValues("cookietip-consent", true)[0];
-if (consentString && typeof consentString === "string") {
-  const cookieObj = consentString.split(",").reduce(function (acc, curr) {
-    const cookieValue = curr.trim().split(":");
-    acc[cookieValue[0]] = getConsentStateForCategory(cookieValue[1]);
-    return acc;
-  }, {});
-
-  updateConsentState({
-    ad_storage: cookieObj.advertisement,
-    analytics_storage: cookieObj.analytics,
-    functionality_storage: cookieObj.functional,
-    personalization_storage: cookieObj.performance,
-    security_storage: cookieObj.necessary,
-    ad_user_data: cookieObj.advertisement,
-    ad_personalization: cookieObj.advertisement,
-  });
-}
+readCookieAndUpdateConsent();
 
 let scriptURL =
   "https://cookietip.com/js/" +
