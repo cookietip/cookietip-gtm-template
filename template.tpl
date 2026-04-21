@@ -283,7 +283,7 @@ const updateConsentState = require("updateConsentState");
 const getCookieValues = require("getCookieValues");
 const encodeUri = require("encodeUri");
 const gtagSet = require("gtagSet");
-const setInWindow = require("setInWindow");
+const addConsentListener = require("addConsentListener");
 
 const regionSettings = data.regionSettings || [];
 const waitForTime = data.waitForTime;
@@ -356,7 +356,9 @@ if (setDefaultSetting) {
 
 readCookieAndUpdateConsent();
 
-setInWindow("__cookietipConsentCallback", readCookieAndUpdateConsent, true);
+addConsentListener("ad_storage", function () {
+  readCookieAndUpdateConsent();
+});
 
 const scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js");
 if (!queryPermission("inject_script", scriptURL)) return data.gtmOnFailure();
@@ -366,43 +368,6 @@ injectScript(scriptURL, data.gtmOnSuccess, data.gtmOnFailure);
 ___WEB_PERMISSIONS___
 
 [
-  {
-    "instance": {
-      "key": {
-        "publicId": "access_globals",
-        "versionId": "1"
-      },
-      "param": [
-        {
-          "key": "keys",
-          "value": {
-            "type": 2,
-            "listItem": [
-              {
-                "type": 3,
-                "mapKey": [
-                  {"type": 1, "string": "key"},
-                  {"type": 1, "string": "read"},
-                  {"type": 1, "string": "write"},
-                  {"type": 1, "string": "execute"}
-                ],
-                "mapValue": [
-                  {"type": 1, "string": "__cookietipConsentCallback"},
-                  {"type": 8, "boolean": true},
-                  {"type": 8, "boolean": true},
-                  {"type": 8, "boolean": false}
-                ]
-              }
-            ]
-          }
-        }
-      ]
-    },
-    "clientAnnotations": {
-      "isEditedByUser": true
-    },
-    "isRequired": true
-  },
   {
     "instance": {
       "key": {
