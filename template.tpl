@@ -268,7 +268,7 @@ ___TEMPLATE_PARAMETERS___
         "checkboxText": "Redact ads data",
         "simpleValueType": true,
         "help": "When this option is checked and the default consent state of \"Advertisement Cookies\" is disabled, Google's advertising tags will remove all advertising identifiers from the requests, and route the traffic through domains that do not use cookies."
-      },
+      }
     ]
   }
 ]
