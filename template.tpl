@@ -79,6 +79,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "analytics_storage",
+              "defaultValue": "denied",
               "displayName": "Analytics Storage",
               "macrosInSelect": true,
               "selectItems": [
@@ -99,6 +100,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "ad_storage",
+              "defaultValue": "denied",
               "displayName": "Ad Storage",
               "macrosInSelect": true,
               "selectItems": [
@@ -119,6 +121,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "functionality_storage",
+              "defaultValue": "denied",
               "displayName": "Functionality Storage",
               "macrosInSelect": true,
               "selectItems": [
@@ -139,6 +142,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "personalization_storage",
+              "defaultValue": "denied",
               "displayName": "Personalization Storage",
               "macrosInSelect": true,
               "selectItems": [
@@ -159,6 +163,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "security_storage",
+              "defaultValue": "granted",
               "displayName": "Security Storage",
               "selectItems": [
                 {
@@ -179,6 +184,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "ad_user_data",
+              "defaultValue": "denied",
               "displayName": "Ad User Data",
               "macrosInSelect": true,
               "selectItems": [
@@ -199,6 +205,7 @@ ___TEMPLATE_PARAMETERS___
             "param": {
               "type": "SELECT",
               "name": "ad_personalization",
+              "defaultValue": "denied",
               "displayName": "Ad Personalization",
               "macrosInSelect": true,
               "selectItems": [
@@ -227,7 +234,8 @@ ___TEMPLATE_PARAMETERS___
             "isUnique": false
           }
         ],
-        "newRowButtonText": "Add Setting"
+        "newRowButtonText": "Add Setting",
+        "help": "By default every consent type except Security Storage is denied until the visitor makes a choice. Leave the table empty to keep that default for all regions, or add rows to override it for specific regions."
       }
     ]
   },
@@ -283,7 +291,6 @@ const updateConsentState = require("updateConsentState");
 const getCookieValues = require("getCookieValues");
 const encodeUri = require("encodeUri");
 const gtagSet = require("gtagSet");
-const addConsentListener = require("addConsentListener");
 
 const regionSettings = data.regionSettings || [];
 const waitForTime = data.waitForTime;
@@ -354,13 +361,13 @@ if (setDefaultSetting) {
   setDefaultConsentState(defaults);
 }
 
+// Returning visitors: apply the stored choice right after the defaults. Later choices
+// arrive as gtag('consent', 'update') commands pushed by cookies.js itself.
 readCookieAndUpdateConsent();
 
-addConsentListener("ad_storage", function () {
-  readCookieAndUpdateConsent();
-});
-
-const scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js");
+// gtm=1 tells cookies.js that this tag already set the consent defaults, so it does
+// not push a second, late gtag('consent', 'default') after Consent Initialization.
+const scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js") + "?gtm=1";
 if (!queryPermission("inject_script", scriptURL)) return data.gtmOnFailure();
 injectScript(scriptURL, data.gtmOnSuccess, data.gtmOnFailure);
 
@@ -382,7 +389,7 @@ ___WEB_PERMISSIONS___
             "listItem": [
               {
                 "type": 1,
-                "string": "https://cookietip.com/js/*/cookies.js"
+                "string": "https://cookietip.com/js/*"
               }
             ]
           }
