@@ -25,7 +25,7 @@ This is a Google Tag Manager Community Template for integrating the CookieTip co
 1. Import this template into your GTM container
 2. Create a new tag using the **CookieTip CMP** template
 3. Enter your **Website Token** (found in your [CookieTip dashboard](https://cookietip.com/panel))
-4. Configure default consent settings per region
+4. Optionally override the default consent settings per region (by default every consent type except Security Storage is denied until the visitor decides)
 5. Set the tag to fire on **Consent Initialization - All Pages**
 
 ## License
