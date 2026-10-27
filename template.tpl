@@ -74,6 +74,14 @@ ___TEMPLATE_PARAMETERS___
     "valueHint": "e.g. {{Visitor Country}}"
   },
   {
+    "type": "TEXT",
+    "name": "languageCode",
+    "displayName": "Visitor Language (optional)",
+    "simpleValueType": true,
+    "help": "The language to show the consent banner in, as a language code (e.g. de or de-AT), usually your page's language. CookieTip then shows the banner in that language when it has copy for it, before the visitor's browser languages and the country's language. Leave empty to keep the automatic choice; unsupported or invalid values are ignored.",
+    "valueHint": "e.g. {{Page Language}}"
+  },
+  {
     "type": "GROUP",
     "name": "group1",
     "displayName": "Default Consent Settings",
@@ -377,10 +385,13 @@ readCookieAndUpdateConsent();
 
 // gtm=1 tells cookies.js that this tag already set the consent defaults, so it does
 // not push a second, late gtag('consent', 'default') after Consent Initialization.
-// country=XX passes the visitor's country from the publisher; cookies.js ignores invalid codes.
+// country=XX passes the visitor's country and language=xx the banner language from the
+// publisher; cookies.js ignores invalid values.
 let scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js") + "?gtm=1";
 const countryCode = data.countryCode ? makeString(data.countryCode).trim().toUpperCase() : "";
 if (countryCode.length === 2) scriptURL += "&country=" + encodeUriComponent(countryCode);
+const languageCode = data.languageCode ? makeString(data.languageCode).trim() : "";
+if (languageCode.length >= 2) scriptURL += "&language=" + encodeUriComponent(languageCode);
 if (!queryPermission("inject_script", scriptURL)) return data.gtmOnFailure();
 injectScript(scriptURL, data.gtmOnSuccess, data.gtmOnFailure);
 

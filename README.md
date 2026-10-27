@@ -20,6 +20,7 @@ This is a Google Tag Manager Community Template for integrating the CookieTip co
 - Ad data redaction option
 - URL passthrough for ad click information
 - Optional visitor country from your own variable, used instead of IP geolocation
+- Optional banner language from your own variable, used before the visitor's browser languages
 
 ## Setup
 
@@ -27,8 +28,9 @@ This is a Google Tag Manager Community Template for integrating the CookieTip co
 2. Create a new tag using the **CookieTip CMP** template
 3. Enter your **Website Token** (found in your [CookieTip dashboard](https://cookietip.com/panel))
 4. Optionally set **Visitor Country** to a variable holding the visitor's two-letter ISO country code (for example from your server or CDN); leave it empty to let CookieTip detect the country from the IP address
-5. Optionally override the default consent settings per region (by default every consent type except Security Storage is denied until the visitor decides)
-6. Set the tag to fire on **Consent Initialization - All Pages**
+5. Optionally set **Visitor Language** to a variable holding the language code for the banner (for example `de` or `de-AT`, usually your page's language); leave it empty to let CookieTip pick the visitor's browser language, then the country's language
+6. Optionally override the default consent settings per region (by default every consent type except Security Storage is denied until the visitor decides)
+7. Set the tag to fire on **Consent Initialization - All Pages**
 
 ## License
 
