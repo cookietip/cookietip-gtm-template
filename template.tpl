@@ -66,6 +66,14 @@ ___TEMPLATE_PARAMETERS___
     "valueHint": "Your website token"
   },
   {
+    "type": "TEXT",
+    "name": "countryCode",
+    "displayName": "Visitor Country (optional)",
+    "simpleValueType": true,
+    "help": "The visitor's two-letter ISO country code (e.g. DE), usually a variable filled from your server or CDN. CookieTip then applies that country's regulation instead of detecting the country from the IP address. Leave empty to keep IP detection; invalid values are ignored.",
+    "valueHint": "e.g. {{Visitor Country}}"
+  },
+  {
     "type": "GROUP",
     "name": "group1",
     "displayName": "Default Consent Settings",
@@ -290,6 +298,8 @@ const setDefaultConsentState = require("setDefaultConsentState");
 const updateConsentState = require("updateConsentState");
 const getCookieValues = require("getCookieValues");
 const encodeUri = require("encodeUri");
+const encodeUriComponent = require("encodeUriComponent");
+const makeString = require("makeString");
 const gtagSet = require("gtagSet");
 
 const regionSettings = data.regionSettings || [];
@@ -367,7 +377,10 @@ readCookieAndUpdateConsent();
 
 // gtm=1 tells cookies.js that this tag already set the consent defaults, so it does
 // not push a second, late gtag('consent', 'default') after Consent Initialization.
-const scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js") + "?gtm=1";
+// country=XX passes the visitor's country from the publisher; cookies.js ignores invalid codes.
+let scriptURL = "https://cookietip.com/js/" + encodeUri(data.websiteToken + "/cookies.js") + "?gtm=1";
+const countryCode = data.countryCode ? makeString(data.countryCode).trim().toUpperCase() : "";
+if (countryCode.length === 2) scriptURL += "&country=" + encodeUriComponent(countryCode);
 if (!queryPermission("inject_script", scriptURL)) return data.gtmOnFailure();
 injectScript(scriptURL, data.gtmOnSuccess, data.gtmOnFailure);
 
